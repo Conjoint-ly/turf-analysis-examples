@@ -12,6 +12,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "turf-analysis-core": "1.0.0"
+    "turf-analysis-core": "1.0.0",
+    "turf-analysis-ui": "1.0.0"
   }
 }
