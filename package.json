@@ -1,7 +1,7 @@
 {
   "name": "turf-analysis-examples",
   "version": "1.0.0",
-  "description": "TURN Analysis Examples",
+  "description": "TURF Analysis Examples",
   "repository": "git@github.com:log1st/turf-analysis-examples.git",
   "author": {
     "name": "Sergey Perenets",
