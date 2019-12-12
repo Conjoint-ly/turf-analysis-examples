@@ -1,5 +1,5 @@
 const { TurfAnalysis } = require('turf-analysis-core/src/core');
-const { B } = require('../datasets/B');
+const { B } = require('../../datasets/B');
 
 const defaultExample = new TurfAnalysis(B);
 
