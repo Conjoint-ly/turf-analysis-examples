@@ -5,6 +5,7 @@
       brand="TURF Analysis"
       :brand-route="{name: 'index'}"
     />
+    <router-view />
   </turf-layout>
 </template>
 

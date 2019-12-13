@@ -4,10 +4,11 @@ import router from './router';
 import store from './store';
 
 import './plugins/turf-ui';
+import './plugins/turf-worker';
 
 Vue.config.productionTip = process.env.NODE_ENV === 'development';
 
-new Vue({
+window.app = new Vue({
   el: '#app',
   router,
   store,
