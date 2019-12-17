@@ -24,7 +24,7 @@ export default {
     async calculate() {
       this.progress = 0;
       const response = await this.sendMessage({
-        dataset: B.slice(0, 10),
+        dataset: B.slice(0, 2),
         conversionType: 'more',
         cutoffValue: 1,
       }, {
