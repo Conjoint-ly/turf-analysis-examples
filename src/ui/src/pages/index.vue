@@ -1,12 +1,6 @@
 <template>
   <div>
-    <h1>Progress: {{ progress * 100 }}%</h1>
-    <button
-      class="btn btn-primary"
-      @click="calculate"
-    >
-      Calculate
-    </button>
+    heh
   </div>
 </template>
 
@@ -20,15 +14,18 @@ export default {
       progress: 0,
     };
   },
+  created() {
+    this.$router.push({ name: 'calculations-id', params: { id: 'new' } });
+  },
   methods: {
     async calculate() {
       this.progress = 0;
       const response = await this.sendMessage({
-        dataset: B.slice(0, 2),
-        conversionType: 'more',
-        cutoffValue: 1,
+        dataset: B,
+        // conversionType: 'more',
+        // cutoffValue: 1,
       }, {
-        command: 'calcLadder',
+        command: 'calcMetrics',
         args: {
           source: {
             elements: [1, 2],

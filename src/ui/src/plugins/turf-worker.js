@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import TurfWorker from 'turf-analysis-core/turf.worker';
+import TurfWorker from '@conjointly/turf-analysis-core/turf.worker';
 
 Vue.use({
   install: (VueInstance) => {

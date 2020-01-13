@@ -1,10 +1,10 @@
 import Vue from 'vue';
-import App from './App.vue';
-import router from './router';
-import store from './store';
+import store from '@/store';
+import router from '@/router';
 
-import './plugins/turf-ui';
-import './plugins/turf-worker';
+import '@/plugins/turf-ui';
+import '@/plugins/turf-worker';
+import App from '@/App';
 
 Vue.config.productionTip = process.env.NODE_ENV === 'development';
 

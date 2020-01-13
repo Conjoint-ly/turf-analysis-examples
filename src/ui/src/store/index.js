@@ -5,8 +5,15 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    title: '',
+  },
+  getters: {
+    title: ({ title }) => title,
   },
   mutations: {
+    setTitle: (state, title) => {
+      state.title = title;
+    },
   },
   actions: {
   },

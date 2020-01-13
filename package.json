@@ -1,5 +1,5 @@
 {
-  "name": "turf-analysis-examples",
+  "name": "@conjointly/turf-analysis-examples",
   "version": "1.0.0",
   "description": "TURF Analysis Examples",
   "repository": "git@github.com:Conjoint-ly/turf-analysis-examples.git",
@@ -12,7 +12,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "turf-analysis-core": "1.0.0",
-    "turf-analysis-ui": "1.0.0"
+    "@conjointly/turf-analysis-core": "1.0.0",
+    "@conjointly/turf-analysis-ui": "1.0.0"
   }
 }
