@@ -8,7 +8,6 @@
     "email": "log1st.ps@gmail.com",
     "url": "https://github.com/log1st"
   },
-  "type": "module",
   "license": "MIT",
   "private": true,
   "dependencies": {
