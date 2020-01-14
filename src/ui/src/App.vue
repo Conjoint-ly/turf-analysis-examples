@@ -28,3 +28,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+  // Fixes
+  .input-group > .select2-container--bootstrap {
+    display: table-cell;
+  }
+
+</style>

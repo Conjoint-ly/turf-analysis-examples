@@ -15,9 +15,15 @@
         <div class="form-group">
           <label>Please select source of data</label>
           <turf-select v-model="model.source" :disabled="isProcessing" :style="{width: '100%'}">
-            <option v-for="{key, text} in sources" :key="key" :value="key">
-              {{ text }}
-            </option>
+            <optgroup
+              v-for="(sources, group) in sourcesGroups"
+              :key="group"
+              :label="group"
+            >
+              <option v-for="{key, text} in sources" :key="key" :value="key">
+                {{ text }}
+              </option>
+            </optgroup>
           </turf-select>
         </div>
       </div>
@@ -28,41 +34,40 @@
             v-model="rawValue"
             :disabled="isProcessing"
             class="form-control"
-            placeholder="Raw value"
             rows="10"
+            :placeholder="rawValuePlaceholder"
           />
         </div>
       </div>
-      <div class="col-xs-6">
+      <div class="col-xs-12">
         <div class="form-group">
           <label>Rule for reach metric</label>
-          <turf-select v-model="model.conversionMethod" :disabled="isProcessing" :style="{width: '100%'}">
-            <option v-for="{key, text} in conversionMethods" :key="key" :value="key">
-              {{ text }}
-            </option>
-          </turf-select>
+          <div class="input-group" :style="{width: '100%'}">
+            <turf-select v-model="model.conversionMethod" :disabled="isProcessing" :style="{width: 'auto'}">
+              <option v-for="{key, text} in conversionMethods" :key="key" :value="key">
+                {{ text.match(/(?:(([A-Z]|)[a-z]+)+?)/g).map(i => i[0].toUpperCase() + i.substr(1)).join(' ') }}
+              </option>
+            </turf-select>
+            <input
+              v-model.number="model.cutoffValue"
+              :disabled="isProcessing"
+              class="form-control"
+              placeholder="Cutoff value"
+              type="number"
+            >
+          </div>
         </div>
       </div>
-      <div class="col-xs-6">
-        <div class="form-group">
-          <label v-html="'&nbsp;'" />
-          <input
-            v-model.number="model.cutoffValue"
-            :disabled="isProcessing"
-            class="form-control"
-            placeholder="Cutoff value"
-            type="number"
-          >
-        </div>
-      </div>
-      <div class="col-xs-12">
-        <label>Preview of data</label>
+      <div v-if="sourceObject" class="col-xs-12">
+        <label>Preview of data ({{ previewBounds[0] }}x{{ previewBounds[1] }})</label>
         <div :style="{overflowX: 'auto'}">
-          <table v-if="sourceObject" class="table table-bordered table-hover table-condensed">
+          <table class="table table-bordered table-hover table-condensed">
             <tbody>
               <tr v-for="(row, index) in previewContent" :key="index">
                 <td v-for="(col, subIndex) in row" :key="subIndex">
-                  {{ col }}
+                  <code>
+                    {{ col }}
+                  </code>
                 </td>
               </tr>
             </tbody>
@@ -93,8 +98,12 @@ export default {
       isProcessing: false,
 
       previewContent: null,
+      previewBounds: [0, 0],
 
       rawValue: '',
+      rawValuePlaceholder: Array(5).fill(null).map(
+        () => Array(10).fill(null).map(() => Math.round(Math.random() * 10)).join(', '),
+      ).join('\n'),
 
       model: {
         source: 'a',
@@ -106,21 +115,25 @@ export default {
           key: 'a',
           text: 'Test case A',
           getContent: () => A,
+          group: 'Presets',
         },
         {
           key: 'b',
           text: 'Test case B',
           getContent: () => B,
+          group: 'Presets',
         },
         {
           key: 'c',
           text: 'Test case C',
           getContent: () => C,
+          group: 'Presets',
         },
         {
           key: 'raw',
-          text: 'Raw input',
+          text: 'Paste Data from Excel',
           getContent: () => this.rawValue.split('\n').map((row) => row.split(',').map((value) => +(value.trim()))),
+          group: 'Other',
         },
       ],
       conversionMethods: Object.keys(TurfAnalysis.getConversionMethods()).map((key) => ({
@@ -130,6 +143,15 @@ export default {
     };
   },
   computed: {
+    sourcesGroups() {
+      return this.sources.reduce((previous, source) => ({
+        ...previous,
+        [source.group]: source.group in previous ? ([
+          ...previous[source.group],
+          source,
+        ]) : [source],
+      }), {});
+    },
     sourceObject() {
       const source = this.sources.find(({ key }) => key === this.model.source);
 
@@ -164,11 +186,12 @@ export default {
         this.progress = percentage;
       });
 
-      console.log(response);
       this.isProcessing = false;
     },
     async calculatePreview() {
-      this.previewContent = await this.sourceObject.getContent().slice(0, 5).map((row) => row.slice(0, 10));
+      const content = await this.sourceObject.getContent();
+      this.previewContent = content.slice(0, 5).map((row) => row.slice(0, 10));
+      this.previewBounds = [content.length, content.length ? content[0].length : '-'];
     },
   },
 };
