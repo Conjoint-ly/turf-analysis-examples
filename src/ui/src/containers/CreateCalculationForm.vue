@@ -186,6 +186,14 @@ export default {
         this.progress = percentage;
       });
 
+      const id = Math.random().toString(36).substr(7);
+
+      this.$store.commit('addCalculation', {
+        id,
+        model: this.model,
+        result: response,
+      });
+
       this.isProcessing = false;
     },
     async calculatePreview() {
