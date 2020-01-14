@@ -11,9 +11,9 @@
 <script>
 export default {
   name: 'App',
-  data() {
-    return {
-      navigation: [
+  computed: {
+    navigation() {
+      return [
         {
           key: 'create',
           route: {
@@ -23,8 +23,17 @@ export default {
           label: 'New calculation',
           icon: 'plus',
         },
-      ],
-    };
+        ...this.$store.getters.calculations.map(({ id }) => ({
+          key: id,
+          route: {
+            name: 'calculations-id',
+            params: { id },
+          },
+          label: `#${id}`,
+          icon: 'dot-circle',
+        })),
+      ];
+    },
   },
 };
 </script>
